@@ -17,9 +17,9 @@ class Field:
 	def __init__(self, rows, cols, players_cnt):
 		self.rows = rows
 		self.cols = cols
-		self.lines_hor = [[False] * cols] * (rows + 1)
-		self.lines_ver = [[False] * (cols + 1)] * rows
-		self.squares = [[False] * cols] * rows
+		self.lines_hor = [[None] * cols] * (rows + 1)
+		self.lines_ver = [[None] * (cols + 1)] * rows
+		self.squares = [[None] * cols] * rows
 		self.players_cnt = players_cnt
 
 	def fill(self, hor_ver_bar, row, col, player):
@@ -38,24 +38,24 @@ class Field:
 	def finished(self):
 		for i in range(rows):
 			for j in range(cols):
-				if (squares[i][j] == False):
+				if (squares[i][j] is None):
 					return False
 		return True
 	
 	def eval_new_squares(self, hor_ver_bar, row, col, player):
 		if (hor_ver_bar):
 			if row > 0:
-				if count_square_sides((row - 1, col), (row, col + 1)) == 3:
+				if count_square_sides((row - 1, col)) == 3:
 					square[row - 1][col] = player
 			if row < rows:
-				if count_square_sides((row, col), (row + 1, col + 1)) == 3:
+				if count_square_sides((row, col)) == 3:
 					square[row][col] = player
 		else:
 			if col > 0:
-				if count_square_sides((row, col - 1), (row + 1, col)) == 3:
+				if count_square_sides((row, col - 1)) == 3:
 					square[row][col - 1] = player
 			if col < cols:
-				if count_square_sides((row, col), (row + 1, col + 1)) == 3:
+				if count_square_sides((row, col)) == 3:
 					square[row][col] = player
 	
 	def evalue_winner(self):
@@ -70,6 +70,17 @@ class Field:
 				max_squares = squares_cnt[i]
 				argmax = i
 		return winner_index
+	def count_square_sides(self, top_right):
+		cnt = 0
+		if not (lines_hor[top_right[0]][top_right[1]] is None):
+			cnt += 1
+		if not (lines_hor[top_right[0] + 1][top_right[1]] is None):
+			cnt += 1
+		if not (lines_ver[top_right[0]][top_right[1]] is None):
+			cnt += 1
+		if not (lines_ver[top_right[0]][tor_right[1] + 1] is None):
+			cnt += 1
+		return cnt
 
 
 
