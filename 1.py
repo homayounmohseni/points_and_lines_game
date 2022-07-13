@@ -9,6 +9,7 @@ class Player:
 
 #TODO make classes of Square and Line and store instances of them in field instead of simple refrences to playes
 #TODO extent Player class, let Player have a refrence to field so it could independently play his or her turn
+#TODO count_square_sides
 class Square:
 	pass
 
